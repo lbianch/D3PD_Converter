@@ -31,14 +31,21 @@ $(EXE): $(SRC) $(LIB)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(LDLIBS) $(LIBS) -o $@ $<
 
 $(LIB): $(OBJLIST) $(DICTOBJ)
+	mkdir -p lib
 	@rm -f $(LIB)
 	$(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^
 	@rm $(OBJLIST)
 	@rm $(DICTOBJ)
 
-$(DICT): $(DICTSRC)
-	$(ROOTCINT) -f $(DICT) $(ROOTCINTFLAGS) $^
+$(DICT): $(DICTSRC) $(LIBPCM) include/dict
+	$(ROOTCINT) -f $(DICT) $(ROOTCINTFLAGS) $<
+
+
+$(LIBPCM):
 	ln -s ../$(DICTPCM) $(LIBPCM)
+
+include/dict:
+	ln -s ../dict include/dict
 
 #Implicit rule to convert a .cxx to an .o
 %.o : %.cxx
