@@ -10,7 +10,7 @@ This project uses [ROOT6](http://root.cern.ch), which also requires c++1y suppor
 One potential issue with ROOT files in this format is that pointers to `std::vector` objects containing one type may be confused with a different type if the two types happen to have the same size.  For example, a `std::vector<int>*` and a `std::vector<float>*` often have this confusion.  By default, ROOT doesn't do any checking because the branch location one typically passes into `TTree::SetBranchAddress` is taken via `void*`.  In this project, `D3PD::Branches::Tree` is careful to distinguish between different kinds of pointers and will throw a `std::invalid_argument` if the type being used to hold the branch data is different from what the branch truly contains.
 
 # Using
-Once checked out, one only needs to run `make` to build the project and produce the provided executable.  
+Once checked out, one only needs to run `make` to build the project and produce the provided executable.  To add the library to the `LD_LIBRARY_PATH` environmental variable one can also use `source add_library.sh` prior to trying to invoke the executable.  The expected input is `./convert input_filename output_filename` where `output_filename` defaults to `"out.root"` if not provided.
 
 # Selection criteria
 Event selection criteria could be added into `converter.cxx` and selection criteria for each object in a module can be modified.  Using the electrons example, this would be in `D3PD::Branches::Electron::GetElectrons()`.
