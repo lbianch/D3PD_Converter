@@ -13,7 +13,7 @@ One potential issue with ROOT files in this format is that pointers to `std::vec
 Once checked out, one only needs to run `make` to build the project and produce the provided executable.  
 
 # Selection criteria
-Event selection criteria could be added into `converter.cxx` 
+Event selection criteria could be added into `converter.cxx` and selection criteria for each object in a module can be modified.  Using the electrons example, this would be in `D3PD::Branches::Electron::GetElectrons()`.
 
 # Extending
 The general structure of the project is that the `D3PD::Reader` object inherits from numerous submodules (eg, one for electrons, one for muons, one for EM jets, etc.) which in turn inhert from `D3PD::Branches::Tree` virtually.  This parent type is responsible for owning and managing the `TFile` and `TTree`.  Using a `TChain` would also be possible.  In order to add or remove branches to an existing module (example below using electrons), one needs to modify four things:
