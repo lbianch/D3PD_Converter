@@ -20,7 +20,7 @@ The general structure of the project is that the `D3PD::Reader` object inherits 
 
 1. The branch in the `D3PD::Branches::Electron` class (`include/D3PD/branches/electron.h`), with a default member initializer if adding.
 2. The field in the `D3PD::Objects::Electron` class (`include/D3PD/objects/electron.h`), also with a default member initalizer
-3. Attach/remove the branch in the constructor `D3PD::Branches::Electron::Electron()` (in `src/D3PD/branches/module_name.h`) using the `SetBranchAddress` method provided by `D3PD::Branches::Tree`
+3. Attach/remove the branch in the constructor `D3PD::Branches::Electron::Electron()` (in `src/D3PD/branches/electron.cxx`) using the `SetBranchAddress` method provided by `D3PD::Branches::Tree`
 4. Modify the conversion from the branch data to the object in `D3PD::Branches::Electron::GetElectron(int)`
 
 In order to add a new module entirely, similar classes (with an example of photons, `D3PD::Branches::Photon` and `D3PD::Objects::Photon`) would be required and in addition three modifications need to be made to `D3PD::Reader`, and `D3PD::Event`:
@@ -30,7 +30,6 @@ In order to add a new module entirely, similar classes (with an example of photo
    1. Add in the correct object type as a new `private` data member (eg, `D3PD::Objects::Photon::Vector photons;`)
    2. Modify `D3PD::Event::Attach(TTree*)` to add a new branch for that data member (eg, `tree->Branch("photons", &photons);`)
    3. Add new `Get` and `Set` methods
-
-As far as compilation goes with a new module, there is only one further change.  Since this project relies on being able to use ROOT's serialization abilities to store these containers in ROOT files, the ROOT dictionary must be updated.  This is in `dict/headers.h` -- all one would need to do is include the new object header (eg, `#include "D3PD/objects/photon.h"`)
+3. Add the new class to the ROOT dictionary. To `dict/headers.h` one would need to include the new object's header (eg, `#include "D3PD/objects/photon.h"`)
 
 One last note about the header files in `D3PD/objects` is that there are no corresponding files in `src/` since no methods are defined on those classes.
